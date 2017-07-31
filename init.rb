@@ -1,8 +1,13 @@
+require 'pdf_extensions'
+
 Redmine::Plugin.register :pdf_extensions do
-  name 'Pdf Extensions plugin'
-  author 'Author name'
-  description 'This is a plugin for Redmine'
+  name 'Pdf Extensions'
+  author 'Thorsten Deinert'
+  description 'Extend redmines internal pdf generation feature.'
   version '0.0.1'
-  url 'http://example.com/path/to/plugin'
-  author_url 'http://example.com/about'
+  url 'https://github.com/thorsten-de/...'
+  author_url 'https/github.com/thorsten-de'
 end
+
+
+PdfExtensions.apply_patches
