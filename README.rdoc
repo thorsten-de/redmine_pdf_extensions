@@ -5,5 +5,5 @@ RedminePdfExtensions is a plugin that extends remines internal pdf generation wi
 == Render images that are attachmens on other objects
 
 By default, redmine only renders images into the pdf that are attachments of the same object (issue or wiki page).
-This plugin eables us to use the url of any attachment (e.g. @/attachments/807/download/my-image.jpg@) in your object
+This plugin enables us to use the url of any attachment (e.g. /attachments/807/download/my-image.jpg) in your object
 descrption, both to show that image in the regular html views and to render it into the generated pdf.
