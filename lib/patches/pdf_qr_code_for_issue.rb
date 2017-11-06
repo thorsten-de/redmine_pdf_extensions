@@ -190,34 +190,34 @@ module PdfExtensions
         end
       end
 
-      if assoc[:journals].present?
-        pdf.SetFontStyle('B',9)
-        pdf.RDMCell(190,5, l(:label_history), "B")
-        pdf.ln
-        assoc[:journals].each do |journal|
-          pdf.SetFontStyle('B',8)
-          title = "##{journal.indice} - #{format_time(journal.created_on)} - #{journal.user}"
-          title << " (#{l(:field_private_notes)})" if journal.private_notes?
-          pdf.RDMCell(190,5, title)
-          pdf.ln
-          pdf.SetFontStyle('I',8)
-          details_to_strings(journal.visible_details, true).each do |string|
-            pdf.RDMMultiCell(190,5, "- " + string)
-          end
-          if journal.notes?
-            pdf.ln unless journal.details.empty?
-            pdf.SetFontStyle('',8)
-            text = textilizable(journal, :notes,
-              :only_path => false,
-              :edit_section_links => false,
-              :headings => false,
-              :inline_attachments => false
-            )
-            pdf.RDMwriteFormattedCell(190,5,'','', text, issue.attachments, "")
-          end
-          pdf.ln
-        end
-      end
+      # if assoc[:journals].present?
+      #   pdf.SetFontStyle('B',9)
+      #   pdf.RDMCell(190,5, l(:label_history), "B")
+      #   pdf.ln
+      #   assoc[:journals].each do |journal|
+      #     pdf.SetFontStyle('B',8)
+      #     title = "##{journal.indice} - #{format_time(journal.created_on)} - #{journal.user}"
+      #     title << " (#{l(:field_private_notes)})" if journal.private_notes?
+      #     pdf.RDMCell(190,5, title)
+      #     pdf.ln
+      #     pdf.SetFontStyle('I',8)
+      #     details_to_strings(journal.visible_details, true).each do |string|
+      #       pdf.RDMMultiCell(190,5, "- " + string)
+      #     end
+      #     if journal.notes?
+      #       pdf.ln unless journal.details.empty?
+      #       pdf.SetFontStyle('',8)
+      #       text = textilizable(journal, :notes,
+      #         :only_path => false,
+      #         :edit_section_links => false,
+      #         :headings => false,
+      #         :inline_attachments => false
+      #       )
+      #       pdf.RDMwriteFormattedCell(190,5,'','', text, issue.attachments, "")
+      #     end
+      #     pdf.ln
+      #   end
+      # end
 
       if issue.attachments.any?
         pdf.SetFontStyle('B',9)
