@@ -1,16 +1,21 @@
+require 'rqrcode'
+
 module PdfExtensions
   module Patches::PdfQrCodeForIssue
     # Returns a PDF string of a single issue
     def issue_to_pdf(issue, assoc={})
-      pdf = ITCPDF.new(current_language)
+      pdf = Redmine::Export::PDF::ITCPDF.new(current_language)
       pdf.set_title("#{issue.project} - #{issue.tracker} ##{issue.id}")
       pdf.alias_nb_pages
       pdf.footer_date = format_date(User.current.today)
       pdf.add_page
       pdf.SetFontStyle('B',11)
-      buf = "TEST: #{issue.project} - #{issue.tracker} ##{issue.id}"
+      buf = "#{issue.project} - #{issue.tracker} ##{issue.id}"
       pdf.RDMMultiCell(190, 5, buf)
       pdf.SetFontStyle('',8)
+
+      generate_qrcode(pdf, issue)
+
       base_x = pdf.get_x
       i = 1
       issue.ancestors.visible.each do |ancestor|
@@ -227,5 +232,21 @@ module PdfExtensions
           pdf.ln
         end
       end
+
       pdf.output
     end
+
+    QR_CODE_SIZE = 25.4 # 1 Zoll in mm
+    BORDER_SIZE = 7.5
+
+    def generate_qrcode(pdf, issue)
+      url = issue_url(issue)
+      size = 25.4 # 1 Zoll, in mm
+      filename = Rails.root.join("tmp", "issue_qr_code.png").to_s
+      RQRCode::QRCode.new(url).as_png(fill: 'fff', file: filename) 
+
+      pdf.image(filename, 210 - BORDER_SIZE - QR_CODE_SIZE, BORDER_SIZE, QR_CODE_SIZE, QR_CODE_SIZE, '', url, '')
+
+    end
+  end
+end
