@@ -6,7 +6,6 @@ module PdfExtensions
       return attachment if attachment
 
       # There was no corresponding attachment in our object (issue). We'll look for it in all attachments...
-
       # is our filename a route to an attachment? Extract the id as first pattern match group
       /attachments\/download\/(\d+)\/.*\.(gif|jpeg|jpg|png)\z/.match(filename) do |match|
         # Load attachment with the matched id from databse
